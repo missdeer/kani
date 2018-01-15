@@ -69,6 +69,13 @@ type SiteConf struct {
 	UpyunBucket       string
 	UpyunUser         string
 	UpyunPw           string
+	SMTPServer        string
+	SMTPPort          int
+	SMTPUser          string
+	SMTPPassword      string
+	SMSURL            string
+	SMSAppKey         string
+	SMSAppSecret      string
 }
 
 type AppConf struct {

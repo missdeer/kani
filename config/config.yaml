@@ -49,3 +49,10 @@ Site:
     UpyunBucket: ""
     UpyunUser: ""
     UpyunPw: ""
+    SMTPServer: ""
+    SMTPPort: 0
+    SMTPUser: ""
+    SMTPPassword: ""
+    SMSURL: ""
+    SMSAppKey: ""
+    SMSAppSecret: ""
