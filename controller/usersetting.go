@@ -116,13 +116,14 @@ func (h *BaseHandler) UserSettingPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	type recForm struct {
-		Act       string `json:"act"`
-		Email     string `json:"email"`
-		Telephone string `json:"telephone"`
-		URL       string `json:"url"`
-		About     string `json:"about"`
-		Password0 string `json:"password0"`
-		Password  string `json:"password"`
+		Act        string `json:"act"`
+		Email      string `json:"email"`
+		Telephone  string `json:"telephone"`
+		URL        string `json:"url"`
+		About      string `json:"about"`
+		Password0  string `json:"password0"`
+		Password   string `json:"password"`
+		VerifyCode string `json:"verifycode"`
 	}
 
 	decoder := json.NewDecoder(r.Body)
@@ -141,7 +142,8 @@ func (h *BaseHandler) UserSettingPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	isChanged := false
-	if recAct == "info" {
+	switch recAct {
+	case "info":
 		if currentUser.Telephone != rec.Telephone {
 			currentUser.Telephone = rec.Telephone
 			currentUser.TelephoneVerified = false
@@ -153,7 +155,7 @@ func (h *BaseHandler) UserSettingPost(w http.ResponseWriter, r *http.Request) {
 		currentUser.URL = rec.URL
 		currentUser.About = rec.About
 		isChanged = true
-	} else if recAct == "change_pw" {
+	case "change_pw":
 		if len(rec.Password0) == 0 || len(rec.Password) == 0 {
 			w.Write([]byte(`{"retcode":400,"retmsg":"missed args"}`))
 			return
@@ -171,7 +173,7 @@ func (h *BaseHandler) UserSettingPost(w http.ResponseWriter, r *http.Request) {
 		pw = hex.EncodeToString(hash.Sum(nil))
 		currentUser.Password = pw
 		isChanged = true
-	} else if recAct == "set_pw" {
+	case "set_pw":
 		if len(rec.Password) == 0 {
 			w.Write([]byte(`{"retcode":400,"retmsg":"missed args"}`))
 			return
@@ -181,6 +183,7 @@ func (h *BaseHandler) UserSettingPost(w http.ResponseWriter, r *http.Request) {
 		pw := hex.EncodeToString(hash.Sum(nil))
 		currentUser.Password = pw
 		isChanged = true
+	case "verifycode":
 	}
 
 	if isChanged {

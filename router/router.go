@@ -31,6 +31,10 @@ func NewRouter(app *system.Application) *goji.Mux {
 	sp.HandleFunc(pat.Get("/setting"), h.UserSetting)
 	sp.HandleFunc(pat.Post("/setting"), h.UserSettingPost)
 
+	sp.HandleFunc(pat.Get("/charge"), h.UserCharge)
+	sp.HandleFunc(pat.Get("/verifyemail"), h.UserVerifyEmail)
+	sp.HandleFunc(pat.Get("/verifytelephone"), h.UserVerifyTelephone)
+
 	sp.HandleFunc(pat.Get("/newpost/:cid"), h.ArticleAdd)
 	sp.HandleFunc(pat.Post("/newpost/:cid"), h.ArticleAddPost)
 

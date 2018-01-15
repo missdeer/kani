@@ -3,7 +3,6 @@
 <a name="1"></a>
 <div class="nav-title"><a href="/">{{.SiteCf.Name}}</a> &raquo; 设置</div>
 <div class="main-box">
-    <form method="post" action="/setting#1" onsubmit="return form_base_post();">
     <table cellpadding="5" cellspacing="8" border="0" width="100%" class="fs12">
         <tbody><tr>
             <td width="120" align="right">用户名</td>
@@ -17,17 +16,23 @@
             <td width="120" align="right">电子邮件</td>
             <td width="auto" align="left"><input type="text" class="sl w200" id="email" value="{{.Uobj.Email}}" />
                 {{if not .Uobj.EmailVerified}}
-                <a href="/verifyemail">点击验证邮件地址</a>
+                <a href="/verifyemail">点击验证电子邮件地址</a>
                 {{end}}
             </td>
         </tr>
         <tr>
             <td width="120" align="right">手机号码</td>
-            <td width="auto" align="left"><input type="text" class="sl w200" id="telephone" value="{{.Uobj.Telephone}}" />
                 {{if not .Uobj.TelephoneVerified}}
-                <a href="/verifytelephone">点击验证手机号码</a>
+                <form method="post" action="/setting#1" onsubmit="return form_verify_tele_post();">
+                <td width="auto" align="left"><input type="text" class="sl w200" id="telephone" value="{{.Uobj.Telephone}}" />
+                    <a href="/verifytelephone">点击验证手机号码</a>
+                    <input type="text" class="sl w100" id="verifycode" placeholder="输入验证码"/>
+                    <input type="submit" value="校验" name="submit" class="textbtn" />
+                </td>
+                </form>
+                {{else}}
+                <td width="auto" align="left"><input type="text" class="sl w200" id="telephone" value="{{.Uobj.Telephone}}" /></td>
                 {{end}}
-            </td>
         </tr>
         <tr>
             <td width="120" align="right">个人网站</td>
@@ -38,17 +43,17 @@
             <td width="auto" align="left"><textarea class="ml" id="about">{{.Uobj.About}}</textarea></td>
         </tr>
         <tr>
-            <td width="120" align="right"></td>
-            <td width="auto" align="left"><input type="submit" value="保存设置" name="submit" class="textbtn" /></td>
+            <form method="post" action="/setting#1" onsubmit="return form_base_post();">
+                <td width="120" align="right"></td>
+                <td width="auto" align="left"><input type="submit" value="保存设置" name="submit" class="textbtn" /></td>
+            </form>
         </tr>
 
         </tbody></table>
-    </form>
 
 </div>
 
 <script>
-
     function form_base_post(){
         var email = $('#email').val();
         var url = $('#url').val();
@@ -68,6 +73,28 @@
                 $.toast(errMsg);
             }
         });
+        return false;
+    }
+
+    function form_verify_tele_post() {
+        var verifycode = $('#verifycode').val();
+        if (verifycode) {
+            $.ajax({
+                type: "POST",
+                url: "/setting",
+                data: JSON.stringify({'act': 'verifycode', 'verifycode': verifycode}),
+                dataType: "json",
+                contentType: "application/json",
+                success: function(data){
+                    $.toast(data.retmsg);
+                },
+                fail: function(errMsg) {
+                    $.toast(errMsg);
+                }
+            });
+        } else {
+            $.toast('请输入手机上收到的验证码');
+        }
         return false;
     }
 
