@@ -8,27 +8,29 @@ import (
 )
 
 type User struct {
-	ID            uint64 `json:"id"`
-	Name          string `json:"name"`
-	Gender        string `json:"gender"`
-	Flag          int    `json:"flag"`
-	Avatar        string `json:"avatar"`
-	Password      string `json:"password"`
-	Email         string `json:"email"`
-	URL           string `json:"url"`
-	Telephone     string `json:"telephone"`
-	Coin          uint64 `json:"coin"`
-	Articles      uint64 `json:"articles"`
-	Replies       uint64 `json:"replies"`
-	RegTime       uint64 `json:"regtime"`
-	LastPostTime  uint64 `json:"lastposttime"`
-	LastReplyTime uint64 `json:"lastreplytime"`
-	LastLoginTime uint64 `json:"lastlogintime"`
-	About         string `json:"about"`
-	Notice        string `json:"notice"`
-	NoticeNum     int    `json:"noticenum"`
-	Hidden        bool   `json:"hidden"`
-	Session       string `json:"session"`
+	ID                uint64 `json:"id"`
+	Name              string `json:"name"`
+	Gender            string `json:"gender"`
+	Flag              int    `json:"flag"`
+	Avatar            string `json:"avatar"`
+	Password          string `json:"password"`
+	Email             string `json:"email"`
+	URL               string `json:"url"`
+	Telephone         string `json:"telephone"`
+	Coin              uint64 `json:"coin"`
+	Articles          uint64 `json:"articles"`
+	Replies           uint64 `json:"replies"`
+	RegTime           uint64 `json:"regtime"`
+	LastPostTime      uint64 `json:"lastposttime"`
+	LastReplyTime     uint64 `json:"lastreplytime"`
+	LastLoginTime     uint64 `json:"lastlogintime"`
+	About             string `json:"about"`
+	Notice            string `json:"notice"`
+	NoticeNum         int    `json:"noticenum"`
+	EmailVerified     bool   `json:"emailverified"`
+	TelephoneVerified bool   `json:"telephoneverified"`
+	Hidden            bool   `json:"hidden"`
+	Session           string `json:"session"`
 }
 
 type UserMini struct {

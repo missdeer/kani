@@ -9,16 +9,24 @@
             <td width="120" align="right">用户名</td>
             <td width="auto" align="left">{{.Uobj.Name}}</td>
         </tr><tr>
-            <td width="120" align="right">卡尼币</td>
-            <td width="auto" align="left">{{.Uobj.Coin}}</td>
+            <td width="120" align="right">金币</td>
+            <td width="auto" align="left">{{.Uobj.Coin}} <a href="/charge">立即充值</a></td>
         </tr>
         <tr>
             <td width="120" align="right">电子邮件</td>
-            <td width="auto" align="left"><input type="text" class="sl wb80" id="email" value="{{.Uobj.Email}}" /> <br/>不公开，仅供取回密码，务必正确填写且记住。</td>
+            <td width="auto" align="left"><input type="text" class="sl wb80" id="email" value="{{.Uobj.Email}}" />
+                {{if not .Uobj.EmailVerified}}
+                <br/><a href="/verifyemail">点击验证邮件地址</a>
+                {{end}}
+            </td>
         </tr>
         <tr>
             <td width="120" align="right">手机号码</td>
-            <td width="auto" align="left"><input type="text" class="sl wb80" id="telephone" value="{{.Uobj.Telephone}}" /> <br/>不公开，仅供取回密码，务必正确填写且记住。</td>
+            <td width="auto" align="left"><input type="text" class="sl wb80" id="telephone" value="{{.Uobj.Telephone}}" />
+                {{if not .Uobj.TelephoneVerified}}
+                <br/><a href="/verifytelephone">点击验证手机号码</a>
+                {{end}}
+            </td>
         </tr>
         <tr>
             <td width="120" align="right">个人网站</td>
@@ -43,12 +51,13 @@
     function form_base_post(){
         var email = $('#email').val();
         var url = $('#url').val();
+        var telephone = $('#telephone').val();
         var about = $('#about').val();
 
         $.ajax({
             type: "POST",
             url: "/setting",
-            data: JSON.stringify({'act': 'info', 'email': email, 'url': url, 'about': about}),
+            data: JSON.stringify({'act': 'info', 'email': email, 'telephone': telephone, 'url': url, 'about': about}),
             dataType: "json",
             contentType: "application/json",
             success: function(data){

@@ -142,8 +142,14 @@ func (h *BaseHandler) UserSettingPost(w http.ResponseWriter, r *http.Request) {
 
 	isChanged := false
 	if recAct == "info" {
-		currentUser.Email = rec.Email
-		currentUser.Telephone = rec.Telephone
+		if currentUser.Telephone != rec.Telephone {
+			currentUser.Telephone = rec.Telephone
+			currentUser.TelephoneVerified = false
+		}
+		if currentUser.Email != rec.Email {
+			currentUser.Email = rec.Email
+			currentUser.EmailVerified = false
+		}
 		currentUser.URL = rec.URL
 		currentUser.About = rec.About
 		isChanged = true
