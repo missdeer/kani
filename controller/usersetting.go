@@ -2,7 +2,10 @@ package controller
 
 import (
 	"bytes"
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"strconv"
@@ -115,7 +118,8 @@ func (h *BaseHandler) UserSettingPost(w http.ResponseWriter, r *http.Request) {
 	type recForm struct {
 		Act       string `json:"act"`
 		Email     string `json:"email"`
-		Url       string `json:"url"`
+		Telephone string `json:"telephone"`
+		URL       string `json:"url"`
 		About     string `json:"about"`
 		Password0 string `json:"password0"`
 		Password  string `json:"password"`
@@ -139,7 +143,8 @@ func (h *BaseHandler) UserSettingPost(w http.ResponseWriter, r *http.Request) {
 	isChanged := false
 	if recAct == "info" {
 		currentUser.Email = rec.Email
-		currentUser.URL = rec.Url
+		currentUser.Telephone = rec.Telephone
+		currentUser.URL = rec.URL
 		currentUser.About = rec.About
 		isChanged = true
 	} else if recAct == "change_pw" {
@@ -147,18 +152,28 @@ func (h *BaseHandler) UserSettingPost(w http.ResponseWriter, r *http.Request) {
 			w.Write([]byte(`{"retcode":400,"retmsg":"missed args"}`))
 			return
 		}
-		if currentUser.Password != rec.Password0 {
+		hash := sha256.New()
+		hash.Write([]byte(fmt.Sprintf("%s%d%s%d", currentUser.Name, len(currentUser.Name), rec.Password0, len(rec.Password0))))
+		pw := hex.EncodeToString(hash.Sum(nil))
+
+		if currentUser.Password != pw {
 			w.Write([]byte(`{"retcode":400,"retmsg":"当前密码不正确"}`))
 			return
 		}
-		currentUser.Password = rec.Password
+		hash = sha256.New()
+		hash.Write([]byte(fmt.Sprintf("%s%d%s%d", currentUser.Name, len(currentUser.Name), rec.Password, len(rec.Password))))
+		pw = hex.EncodeToString(hash.Sum(nil))
+		currentUser.Password = pw
 		isChanged = true
 	} else if recAct == "set_pw" {
 		if len(rec.Password) == 0 {
 			w.Write([]byte(`{"retcode":400,"retmsg":"missed args"}`))
 			return
 		}
-		currentUser.Password = rec.Password
+		hash := sha256.New()
+		hash.Write([]byte(fmt.Sprintf("%s%d%s%d", currentUser.Name, len(currentUser.Name), rec.Password, len(rec.Password))))
+		pw := hex.EncodeToString(hash.Sum(nil))
+		currentUser.Password = pw
 		isChanged = true
 	}
 

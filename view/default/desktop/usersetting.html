@@ -10,8 +10,16 @@
             <td width="auto" align="left">{{.Uobj.Name}}</td>
         </tr>
         <tr>
+            <td width="120" align="right">卡尼币</td>
+            <td width="auto" align="left">{{.Uobj.Coin}}</td>
+        </tr>
+        <tr>
             <td width="120" align="right">电子邮件</td>
             <td width="auto" align="left"><input type="text" class="sl w200" id="email" value="{{.Uobj.Email}}" /> 不公开，仅供取回密码，务必正确填写且记住。</td>
+        </tr>
+        <tr>
+            <td width="120" align="right">手机号码</td>
+            <td width="auto" align="left"><input type="text" class="sl w200" id="telephone" value="{{.Uobj.Telephone}}" /> 不公开，仅供取回密码，务必正确填写且记住。</td>
         </tr>
         <tr>
             <td width="120" align="right">个人网站</td>
@@ -256,4 +264,3 @@
 {{end}}
 
 {{ end}}
-
