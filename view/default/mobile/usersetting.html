@@ -22,13 +22,13 @@
         <tr>
             <td width="120" align="right">手机号码</td>
                 {{if not .Uobj.TelephoneVerified}}
-                <form method="post" action="/setting#1" onsubmit="return form_verify_tele_post();">
                 <td width="auto" align="left"><input type="text" class="sl wb80" id="telephone" value="{{.Uobj.Telephone}}" />
                     <br/><a href="/verifytelephone">点击验证手机号码</a>
-                    <br/><input type="text" class="sl wb80" id="verifycode" placeholder="输入验证码"/>
-                    <input type="submit" value="校验" name="submit" class="textbtn" />
+                    <form method="post" action="/setting#1" onsubmit="return form_verify_tele_post();">
+                        <input type="text" class="sl wb80" id="verifycode" placeholder="输入验证码"/>
+                        <input type="submit" value="校验" name="submit" class="textbtn" />
+                    </form>
                 </td>
-                </form>
                 {{else}}
                 <td width="auto" align="left"><input type="text" class="sl wb80" id="telephone" value="{{.Uobj.Telephone}}" />
                 {{end}}
